@@ -1,31 +1,24 @@
 Project Cadrea
-A brief project summary of the IoT project for Air quality control in a Smart Home
-DatePerformed By:June 1, 2018Deepan Anbarasan(S241446)
+
+
+A brief project summary of the IoT project for Air quality control in a Smart Home
+Date
+Performed By:
+
+June 1, 2018
+Deepan Anbarasan(S241446)
 Dena Markudova (S239609)
 Giampaolo Marinaro(S242195)
 Raimondo Gallo(S251857)
- Summary
-This project aims to tackle the problem of indoor air pollution that’s ravaging many major cities in the world. The goal was to design a system that can maintain the indoor air quality of a house without compromising the comfort and safety of the user while being energy conscious. We have built a prototype keeping this goal in mind.
-To attain the goals mentioned, the system collects pollution, climate data from inside the house and the external weather conditions along with checking for gas leaks. The system then decides based on this data if there some action it needs to do to reduce pollution or risks from gas leak. The system can do two possible solutions to reduce pollution – open windows or run an air purifier. The choice between the two depends on the comfort thresholds set by the user and the general conditions both inside and outside. In the case of a gas leak, the system also alerts the user via Telegram messaging app. The user’s presence is also detected and/or predicted to decide on whether to act immediately. There is also a vacation mode that can be set easily using Telegram, that helps to keep the system in a stand-by mode. The user can also visualize the status of the house easily using the freeboard dashboard where the most relevant information is represented concisely.  
+
+
+ Summary:
+This project aims to tackle the problem of indoor air pollution thatâ€™s ravaging many major cities in the world. The goal was to design a system that can maintain the indoor air quality of a house without compromising the comfort and safety of the user while being energy conscious. We have built a prototype keeping this goal in mind.
+To attain the goals mentioned, the system collects pollution, climate data from inside the house and the external weather conditions along with checking for gas leaks. The system then decides based on this data if there some action it needs to do to reduce pollution or risks from gas leak. The system can do two possible solutions to reduce pollution â€“ open windows or run an air purifier. The choice between the two depends on the comfort thresholds set by the user and the general conditions both inside and outside. In the case of a gas leak, the system also alerts the user via Telegram messaging app. The userâ€™s presence is also detected and/or predicted to decide on whether to act immediately. There is also a vacation mode that can be set easily using Telegram, that helps to keep the system in a stand-by mode. The user can also visualize the status of the house easily using the freeboard dashboard where the most relevant information is represented concisely.  
 The entire system is built using the Microservices architecture to make the system resilient and easy to update and up-scale. Configuration files are present for each module which makes changes and maintenance easy to handle. The communication protocols used are MQTT and REST. The hardware is a Raspberry pi connected to sensors and actuators through relay circuits. The idea is to have one Raspberry Pi for each house. Most modules except the Resource catalogue (RC) and Threshold service (TS) are specific to the room/house. The RC and TS are common to all rooms/houses.  
 The diagrams and tables that follow are presented to enable the reader to have a very quick glance at how the system works without going into too much detail.
 
-Software Components
-The individual and independent software modules in this project and the communication between them is  
 
-Communication between modules:
-The communication protocols and the way the modules interact is given in more detail in the table. The table also contains information about the specific MQTT topics used in the current module and whether the module publishes or subscribes to topics for the specific topic.
-
-Module NameComm. Protocol
-(module specific)MQTT Topic/REST APITemp & Humid Sensing moduleMQTT(pub).../sensor/rhumidity/internalMQTT(pub).../sensor/temp/internalRESTResource CatalogWeather Underground ParserMQTT(pub)/wunderground/temp/TurinMQTT(pub)/wunderground/wind/TurinMQTT(pub)/wunderground/weather/TurinMQTT(pub)/wunderground/rhumidity/TurinRESTWeather Underground DataMotion(Presence) Detection ModuleMQTT(pub).../motion_local_controller/motion_statusGas Sensing ModuleMQTT(pub).../gas_local_controller/gas_windowRESTResource CatalogSimulator - Dust InternalMQTT(pub).../sensor/dust/internalRESTResource CatalogSimulator - Dust ExternalMQTT(pub).../sensor/dust/externalRESTResource CatalogTemp & Humid Decision MakerMQTT(sub)/wunderground/temp/TurinMQTT(sub)/wunderground/wind/TurinMQTT(sub)/wunderground/weather/TurinMQTT(sub)/wunderground/rhumidity/TurinMQTT(sub).../sensor/rhumidity/internalMQTT(sub).../sensor/rhumidity/externalMQTT(pub).../temp_local_controller/temp_windowRESTResource CatalogRESTThreshold ValuesDust Decision MakerMQTT(sub).../sensor/dust/internalMQTT(sub).../sensor/dust/externalMQTT(pub).../dust_local_controller/purifierMQTT(pub).../dust_local_controller/dust_windowRESTResource CatalogRESTThreshold ValuesPrediction Module -PresenceMQTT(sub).../motion_local_controller/motion_statusMQTT(pub).../prediction_local_controller/predict_motionCentral ControllerMQTT(sub).../prediction_local_controller/predict_motionMQTT(sub).../dust_local_controller/dust_windowMQTT(sub).../dust_local_controller/purifierMQTT(sub).../temp_local_controller/temp_windowMQTT(sub).../gas_local_controller/gas_windowMQTT(sub).../motion_local_controller/motion_statusMQTT(sub).../sensor/temp/internalMQTT(sub).../sensor/rhumidity/internalMQTT(sub).../sensor/dust/internalMQTT(sub)/wunderground/temp/TurinMQTT(pub).../central_controller/final_purifierMQTT(pub).../central_controller/final_windowRESTResource CatalogRESTThreshold ValuesRESTThingspeakActuatorMQTT(sub).../central_controller/final_purifierMQTT(sub).../central_controller/final_windowMQTT(sub).../telegram_controller/vacation_modeTelegram BotMQTT(pub).../telegram_controller/vacation_modeRESTResource CatalogRESTThreshold ValuesFreeboardRESTThingspeakUI-Threshold_&_ConfigNANAUI-Resource_CatalogRESTThreshold ValuesRESTDatabase communicationRESTResource CatalogThingSpeakNANA
-
-
-Files belonging to each module
- As each module acts independently in the microservices architecture, here the files belonging to each module have been elucidated:
-Module NameFile ListTemp & Humid Sensing moduleTemp_Humid_Sensor_Data_Collector.pyTempHumid.jsonlocal_TH_config.jsonWeather Underground ParserWundergroundDataParser.pylocal_Wunder_Config.jsonMotion(Presence) Detection Modulemotion_pub2.pymotion_config.jsonGas Sensing Moduletry_gas_sensor.pyGas_sensor_config.jsonSimulator - Dust Internaldust_data_inside.pyDust_sensor_config.jsonSimulator - Dust Externaldust_data_generator.pyDust_sensor_config.jsonTemp & Humid Decision MakerTemp_Humid_Mqtt_Controller.pylocal_TH_control_config.jsonDust Decision Makerdust_controller.pyDust_sensor_config.jsonPrediction Module -Presenceprediction_alg_motion.pyprediction_config.jsonCentral ControllerCentralMqttController.pylocal_centre_config.jsonActuatorActuator_Control.pylocal_actuator_config.jsonTelegram Bottelegram_bot.pybot_config.jsonUI-Threshold_and_ConfigThresholdWebService.pycc_webservice_config.jsonconfig_RC_WS.jsonlogin_form.htmlstyle.cssUI-Resource_CatalogRCWebService.pycc_webservice_config.jsonconfig_RC_WS.jsonlogin_form.htmlstyle.cssFreeboardNAThingSpeakNA
-Distribution of responsibilities
- The distribution of work and responsibilities among the team members based on the modules can be seen below:
-Module NameResponsibilityTemp & Humid Sensing moduleDeepanWeather Underground ParserDeepanMotion(Presence) Detection ModuleDenaGas Sensing ModuleGiampaoloSimulator - Dust InternalGiampaoloSimulator - Dust ExternalGiampaoloTemp & Humid Decision MakerDeepanDust Decision MakerGiampaoloPrediction Module -PresenceDenaCentral ControllerDeepan(Primary), Dena, Giampaolo,RaimondoActuatorDeepan,RaimondoTelegram BotRaimondoUI-Threshold_and_ConfigRaimondo(primary), Deepan, Giampaolo,DenaUI-Resource_CatalogRaimondo(primary), Deepan, Giampaolo,DenaFreeboardDeepan,DenaThingSpeakDeepan(Other)MQTTGiampaolo
 
 
 
