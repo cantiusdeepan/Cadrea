@@ -1,0 +1,2 @@
+The cc_webservice_config.json file in this web service is only read to keep a version the users' informations udadated on the local machine. 
+Beside this, the file is not needed to the RC web service.
