@@ -5,16 +5,6 @@ A brief project summary of the IoT project for Air quality control in a Smart Ho
 
 
 
-
-Performed By:
-
-
-Deepan Anbarasan(S241446)
-Dena Markudova (S239609)
-Giampaolo Marinaro(S242195)
-Raimondo Gallo(S251857)
-
-
  Summary:
  
 This project aims to tackle the problem of indoor air pollution that’s ravaging many major cities in the world. The goal was to design a system that can maintain the indoor air quality of a house without compromising the comfort and safety of the user while being energy conscious. We have built a prototype keeping this goal in mind.
